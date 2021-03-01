@@ -13,7 +13,7 @@ function init(data, elementId) {
     let row = data[i]
     row['ENTITY'] = row['ENTITY'] + ' - ' + row['LOCATION']
   }
-  $(elementId).DataTable({
+  const table = $(elementId).DataTable({
     data: data,
     responsive: true,
     // scrollY: '510px',
@@ -82,4 +82,27 @@ function init(data, elementId) {
       },
     ]
   })
+
+  // add filter for regions, if there are more than 1
+  const regions = [...new Set(data.map(item => item.REGION))]
+  if (regions.length > 1) {
+    regions.unshift('All')
+
+    $('<span><strong>Region</strong>&nbsp;</span>').appendTo('#regionSelectDiv')
+
+    var sel = $('<select id="regionSelect">').appendTo('#regionSelectDiv')
+    $(regions).each(function() {
+     sel.append($('<option>').attr('value', this).text(this))
+    })
+
+    sel.on('change', function() {
+      const selectValue = this.value
+      const searchValue = selectValue === 'All' ? '' : selectValue
+      table
+        .column($(this).data('index'))
+        .search(searchValue)
+        .draw()
+    })
+  }
+
 }

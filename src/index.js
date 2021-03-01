@@ -18,6 +18,7 @@ app.innerHTML = `
 </a>
 <div id="mapLegend"></div>
 ${parentUrl.indexOf("buildingproductecosystems.org") > 0  ? "" : '<p>Resources compiled by <a href="https://www.buildingproductecosystems.org/">Building Product Ecosystems</a> | Please submit <a href="https://www.buildingproductecosystems.org/regional-reuse-resources#suggestions">suggestions, additions, or corrections</a> here.</p>'}
+<div id="regionSelectDiv"></div>
 <div class="table-wrapper">
   <table id="table" class="stripe display responsive" width="100%"></table>
 </div>
