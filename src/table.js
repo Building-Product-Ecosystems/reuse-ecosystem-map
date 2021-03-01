@@ -22,10 +22,6 @@ function init(data, elementId) {
     "order": [[ 1, "asc" ]],
     columns: [
       {
-        data: 'REGION',
-        title: 'REGION:',
-      },
-      {
         data: 'ENTITY',
         title: 'ENTITY:',
         className: 'details-col',
@@ -40,6 +36,10 @@ function init(data, elementId) {
       {
         data: 'ROLE(S)',
         title: 'ROLE(S):',
+      },
+      {
+        data: 'REGION',
+        title: 'REGION:',
       },
       {
         data: 'FULL ADDRESS',
