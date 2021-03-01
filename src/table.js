@@ -39,6 +39,7 @@ function init(data, elementId) {
       },
       {
         data: 'REGION',
+        name: 'REGION',
         title: 'REGION:',
       },
       {
@@ -99,7 +100,7 @@ function init(data, elementId) {
       const selectValue = this.value
       const searchValue = selectValue === 'All' ? '' : selectValue
       table
-        .column($(this).data('index'))
+        .column('REGION:name')
         .search(searchValue)
         .draw()
     })
