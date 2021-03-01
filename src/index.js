@@ -3,6 +3,8 @@ import * as Map from './map.js'
 import style from './style/main.scss'
 
 const app = document.querySelector('#app')
+const parentUrl = (window.location != window.parent.location) ? document.referrer : document.location.href
+
 
 app.innerHTML = `
 <div id="spinner">
@@ -15,6 +17,7 @@ app.innerHTML = `
   <img src="images/bpe-logo.png" alt="Building Product Ecosystems" id="mapLogo"></img>
 </a>
 <div id="mapLegend"></div>
+${parentUrl.indexOf("buildingproductecosystems.org") > 0  ? "" : '<p>Resources compiled by <a href="https://www.buildingproductecosystems.org/">Building Product Ecosystems</a> | Please submit <a href="https://www.buildingproductecosystems.org/regional-reuse-resources#suggestions">suggestions, additions, or corrections</a> here.</p>'}
 <div class="table-wrapper">
   <table id="table" class="stripe display responsive" width="100%"></table>
 </div>
