@@ -5,7 +5,7 @@ $link-color: #ec7c04;
 
 $map-height: 800px;
 $table-height: 560px;
-$table-padding-top: 50px;
+$table-padding-top: 25px;
 
 body,
 html {
@@ -127,6 +127,7 @@ a {
   height: $table-height;
   background: #fff;
   padding-top: $table-padding-top;
+  border-top: 1px solid $link-color;
 }
 
 .details-col {

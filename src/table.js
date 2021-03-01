@@ -19,7 +19,12 @@ function init(data, elementId) {
     // scrollY: '510px',
     // scrollCollapse: true,
     paging: true,
+    "order": [[ 1, "asc" ]],
     columns: [
+      {
+        data: 'REGION',
+        title: 'REGION:',
+      },
       {
         data: 'ENTITY',
         title: 'ENTITY:',
