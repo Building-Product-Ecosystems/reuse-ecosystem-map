@@ -4,7 +4,7 @@ const MAPBOX_LINK = 'https://api.mapbox.com/styles/v1/bplmp/cklqt2e0v3ia517pfvnk
 const LAT_COL = 'LAT'
 const LON_COL = 'LON'
 const INITIAL_COORDS = [37.76496739271615, -122.39985495803376]
-const INITIAL_ZOOM = 8
+const INITIAL_ZOOM = 5
 const isMobile = window.innerHeight >= window.innerWidth
 
 const roleColors = {
@@ -19,10 +19,14 @@ export {
   init,
   roleColors,
   mapLegend,
+  zoomToRegion,
 }
 
+let geoJSON
+let map
+
 function init(data) {
-  const geoJSON = buildGeoJSON(data)
+  geoJSON = buildGeoJSON(data)
   console.log(data)
   console.log(geoJSON)
   console.log(data.length, 'rows received')
@@ -80,7 +84,7 @@ function buildGeoJSON(data) {
 }
 
 function loadMap(geoJSON) {
-  const map = L.map('map', {
+  map = L.map('map', {
     center: INITIAL_COORDS,
     zoom: INITIAL_ZOOM,
     scrollWheelZoom: false,
@@ -147,6 +151,18 @@ function loadMap(geoJSON) {
     onEachFeature: popup
   }).addTo(map)
 
+  map.fitBounds(pointsLayers.getBounds())
+}
+
+function zoomToRegion(regionName) {
+  if (regionName.toLowerCase() === 'all') {
+    map.fitBounds(L.geoJSON(geoJSON).getBounds())
+    return
+  }
+  const filteredData = geoJSON.features.filter(row => row.properties['REGION'] === regionName)
+  if (filteredData) {
+    map.fitBounds(L.geoJSON(filteredData).getBounds())
+  }
 }
 
 // https://stackoverflow.com/questions/1140189/converting-latitude-and-longitude-to-decimal-values

@@ -3,6 +3,7 @@
 import * as $ from 'jquery'
 import * as dt from 'datatables.net'
 import * as dtResponsive from 'datatables.net-responsive'
+import { zoomToRegion } from './map.js'
 
 export {
   init
@@ -86,23 +87,25 @@ function init(data, elementId) {
 
   // add filter for regions, if there are more than 1
   const regions = [...new Set(data.map(item => item.REGION))]
+  console.log('regions', regions)
   if (regions.length > 1) {
     regions.unshift('All')
 
     $('<span><strong>Region</strong>&nbsp;</span>').appendTo('#regionSelectDiv')
 
-    var sel = $('<select id="regionSelect">').appendTo('#regionSelectDiv')
+    var regionSelect = $('<select id="regionSelect">').appendTo('#regionSelectDiv')
     $(regions).each(function() {
-     sel.append($('<option>').attr('value', this).text(this))
+     regionSelect.append($('<option>').attr('value', this).text(this))
     })
 
-    sel.on('change', function() {
+    regionSelect.on('change', function() {
       const selectValue = this.value
       const searchValue = selectValue === 'All' ? '' : selectValue
       table
         .column('REGION:name')
         .search(searchValue)
         .draw()
+      zoomToRegion(selectValue)
     })
   }
 
