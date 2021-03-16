@@ -12,7 +12,9 @@ export {
 function init(data, elementId) {
   for (var i = 0; i < data.length; i++) {
     let row = data[i]
-    row['ENTITY'] = row['ENTITY'] + ' - ' + row['LOCATION']
+    if (row['LOCATION']) {
+        row['ENTITY'] = row['ENTITY'] + ' - ' + row['LOCATION']
+    }
   }
   const table = $(elementId).DataTable({
     data: data,
@@ -20,7 +22,7 @@ function init(data, elementId) {
     // scrollY: '510px',
     // scrollCollapse: true,
     paging: true,
-    "order": [[ 1, "asc" ]],
+    "order": [[ 0, "asc" ]],
     columns: [
       {
         data: 'ENTITY',
@@ -86,12 +88,12 @@ function init(data, elementId) {
   })
 
   // add filter for regions, if there are more than 1
-  const regions = [...new Set(data.map(item => item.REGION))]
-  console.log('regions', regions)
+  const allRegions = data.map(item => item.REGION)
+  const regions = allRegions.filter((item, i, ar) => ar.indexOf(item) === i)
   if (regions.length > 1) {
     regions.unshift('All')
 
-    $('<span><strong>Region</strong>&nbsp;</span>').appendTo('#regionSelectDiv')
+    $('<span><strong>Zoom to a region: </strong>&nbsp;</span>').appendTo('#regionSelectDiv')
 
     var regionSelect = $('<select id="regionSelect">').appendTo('#regionSelectDiv')
     $(regions).each(function() {
