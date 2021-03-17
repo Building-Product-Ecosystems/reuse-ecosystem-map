@@ -22,7 +22,8 @@ function init(data, elementId) {
     // scrollY: '510px',
     // scrollCollapse: true,
     paging: true,
-    "order": [[ 0, "asc" ]],
+    lengthChange: false,
+    order: [[ 0, "asc" ]],
     columns: [
       {
         data: 'ENTITY',
@@ -36,6 +37,10 @@ function init(data, elementId) {
       //   data: 'LOCATION',
       //   title: 'LOCATION:',
       // },
+      {
+        data: 'GENERAL ROLE',
+        title: 'CATEGORY:',
+      },
       {
         data: 'ROLE(S)',
         title: 'ROLE(S):',

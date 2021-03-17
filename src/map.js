@@ -37,6 +37,18 @@ function init(data) {
   }, 350)
 }
 
+function getFeatureColor(featureRole) {
+  let role = featureRole.trim()
+  if (role.split(' ')[0] === 'Reuse') {
+    role = 'Reuse'  // because there are many types of reuse
+  }
+  if (roleColors[role]) {
+    return roleColors[role]
+  } else {
+    return '#333333'
+  }
+}
+
 function buildFeature(feature) {
   let featureObject = {
     "type": "Feature",
@@ -141,7 +153,7 @@ function loadMap(geoJSON) {
     pointToLayer: function(feature, latlng) {
       return L.circleMarker(latlng, {
         radius: 9,
-        fillColor: roleColors[feature.properties['GENERAL ROLE']],
+        fillColor: getFeatureColor(feature.properties['GENERAL ROLE']),
         color: "#fff",
         weight: 1.5,
         opacity: 1,
