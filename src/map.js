@@ -1,18 +1,35 @@
 import * as L from 'leaflet'
 
+import {
+  LON_COL,
+  LAT_COL,
+  ENTITY_COL,
+  LOCATION_COL,
+  ROLE_COL,
+  ADDRESS_COL,
+  CONTACT_COL,
+  EMAIL_COL,
+  PHONE_COL,
+  WEBSITE_COL,
+  COLLABORATION_COL,
+} from './data_constants.js'
+
 const MAPBOX_LINK = 'https://api.mapbox.com/styles/v1/bplmp/cklqt2e0v3ia517pfvnkqyt1z/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYnBsbXAiLCJhIjoiY2tscXN6ZXJvMHlmZDJ2cHNuYXg4cm0zdSJ9.NJq68mVfGTdY3qFd1Huj5w'
-const LAT_COL = 'LAT'
-const LON_COL = 'LON'
+
 const INITIAL_COORDS = [37.76496739271615, -122.39985495803376]
 const INITIAL_ZOOM = 5
 const isMobile = window.innerHeight >= window.innerWidth
 
+
+
 const roleColors = {
-  'Consulting': '#ff7f0e',
+  'Consulting (Architecture, Engineering, Environmental)': '#ff7f0e',
   'Deconstruction': '#2ca02c',
   'Government / Public Agency': '#aec7e8',
   'Reuse': '#9467bd',
-  'Waste Management & Recycling': '#bcbd22',
+  'Remanufacturing / Recycling': '#bcbd22',
+  'Network / Resources / Database': '#eb4034',
+  'Hauling / Warehousing': '#4153f2',
 }
 
 export {
@@ -52,17 +69,17 @@ function getFeatureColor(featureRole) {
 function buildFeature(feature) {
   let featureObject = {
     "type": "Feature",
-    "properties": {},
+    "properties": feature,
     "geometry": {
       "type": "Point",
       "coordinates": []
     }
   }
-  for (let variable in feature) {
-    if (feature.hasOwnProperty(variable)) {
-      featureObject.properties[variable.trim()] = feature[variable].trim()
-    }
-  }
+  // for (let variable in feature) {
+  //   if (feature.hasOwnProperty(variable)) {
+  //     featureObject.properties[variable.trim()] = feature[variable].trim()
+  //   }
+  // }
   featureObject.geometry.coordinates.push(parseFloat(feature[LON_COL]))
   featureObject.geometry.coordinates.push(parseFloat(feature[LAT_COL]))
   return featureObject
@@ -120,20 +137,20 @@ function loadMap(geoJSON) {
 
     layer.bindPopup(`
       <div class="popup">
-        <h2>${prop['ENTITY']}</h2>
-        ${prop['LOCATION'] ? `<h4>${prop['LOCATION']}</h4>` : ''}
+        <h2>${prop[ENTITY_COL]}</h2>
+        ${prop[LOCATION_COL] ? `<h4>${prop[LOCATION_COL]}</h4>` : ''}
         <hr/>
         <table class="popup-table">
           <tbody>
-            <tr><td><strong>Role(s)</strong></td><td>${prop['ROLE(S)']}</td></tr>
-            <tr><td><strong>Address</strong></td><td>${prop['FULL ADDRESS']}</td></tr>
-            <tr><td><strong>Contact</strong></td><td>${prop['CONTACT']}</td></tr>
-            <tr><td><strong>Email</strong></td><td><a href="mailto:${prop['EMAIL']}">${prop['EMAIL']}</a></td></tr>
-            <tr><td><strong>Phone</strong></td><td><a href="tel:${prop['PHONE']}">${prop['PHONE']}</a></td></tr>
-            <tr><td><strong>Website</strong></td><td><a href="${prop['WEBSITE']}" target="_blank">${prop['WEBSITE']}</a></td></tr>
+            <tr><td><strong>Role(s)</strong></td><td>${prop[ROLE_COL]}</td></tr>
+            <tr><td><strong>Address</strong></td><td>${prop[ADDRESS_COL]}</td></tr>
+            <tr><td><strong>Contact</strong></td><td>${prop[CONTACT_COL]}</td></tr>
+            <tr><td><strong>Email</strong></td><td><a href="mailto:${prop[EMAIL_COL]}">${prop[EMAIL_COL]}</a></td></tr>
+            <tr><td><strong>Phone</strong></td><td><a href="tel:${prop[PHONE_COL]}">${prop[PHONE_COL]}</a></td></tr>
+            <tr><td><strong>Website</strong></td><td><a href="${prop[WEBSITE_COL]}" target="_blank">${prop[WEBSITE_COL]}</a></td></tr>
           </tbody>
         </table>
-        <p class="popup-p"><strong>Collaboration Opportunities: </strong>${prop['COLLABORATION OPPORTUNITIES']}</p>
+        <p class="popup-p"><strong>Collaboration Opportunities: </strong>${prop[COLLABORATION_COL]}</p>
       </div>
       `, {
         maxWidth : isMobile ? window.innerWidth * 0.75 : 450
@@ -141,8 +158,8 @@ function loadMap(geoJSON) {
 
     layer.bindTooltip(`
       <div class="tooltip">
-        <strong style="font-size: 1.25em;">${prop['ENTITY']}</strong>
-        ${prop['LOCATION'] ? `<br /><span>${prop['LOCATION']}</span>` : ''}
+        <strong style="font-size: 1.25em;">${prop[ENTITY_COL]}</strong>
+        ${prop[LOCATION_COL] ? `<br /><span>${prop[LOCATION_COL]}</span>` : ''}
       </div>
       `, {
         maxWidth : isMobile ? window.innerWidth * 0.75 : 450
@@ -150,10 +167,11 @@ function loadMap(geoJSON) {
   }
 
   const pointsLayers = L.geoJSON(geoJSON, {
+
     pointToLayer: function(feature, latlng) {
       return L.circleMarker(latlng, {
         radius: 9,
-        fillColor: getFeatureColor(feature.properties['GENERAL ROLE']),
+        fillColor: getFeatureColor(feature.properties[ROLE_COL]),
         color: "#fff",
         weight: 1.5,
         opacity: 1,
@@ -171,10 +189,10 @@ function zoomToRegion(regionName) {
     map.fitBounds(L.geoJSON(geoJSON).getBounds())
     return
   }
-  const filteredData = geoJSON.features.filter(row => row.properties['REGION'] === regionName)
-  if (filteredData) {
-    map.fitBounds(L.geoJSON(filteredData).getBounds())
-  }
+  // const filteredData = geoJSON.features.filter(row => row.properties['REGION'] === regionName)
+  // if (filteredData) {
+  //   map.fitBounds(L.geoJSON(filteredData).getBounds())
+  // }
 }
 
 // https://stackoverflow.com/questions/1140189/converting-latitude-and-longitude-to-decimal-values

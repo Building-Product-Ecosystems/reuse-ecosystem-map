@@ -5,17 +5,32 @@ import * as dt from 'datatables.net'
 import * as dtResponsive from 'datatables.net-responsive'
 import { zoomToRegion } from './map.js'
 
+import {
+  ENTITY_COL,
+  LOCATION_COL,
+  ROLE_COL,
+  SECONDARY_ROLE_COL,
+  ADDRESS_COL,
+  CONTACT_COL,
+  EMAIL_COL,
+  PHONE_COL,
+  WEBSITE_COL,
+  COLLABORATION_COL,
+} from './data_constants.js'
+
 export {
   init
 }
 
 function init(data, elementId) {
-  for (var i = 0; i < data.length; i++) {
-    let row = data[i]
-    if (row['LOCATION']) {
-        row['ENTITY'] = row['ENTITY'] + ' - ' + row['LOCATION']
-    }
-  }
+  $.fn.dataTable.ext.errMode = 'none';  // suppress errors
+
+  // for (var i = 0; i < data.length; i++) {
+  //   let row = data[i]
+  //   if (row[LOCATION_COL]) {
+  //       row[ENTITY_COL] = row[ENTITY_COL] + ' - ' + row[LOCATION_COL]
+  //   }
+  // }
   const table = $(elementId).DataTable({
     data: data,
     responsive: true,
@@ -26,7 +41,7 @@ function init(data, elementId) {
     order: [[ 0, "asc" ]],
     columns: [
       {
-        data: 'ENTITY',
+        data: ENTITY_COL,
         title: 'ENTITY:',
         className: 'details-col',
         render: function(data, type, full, meta) {
@@ -34,34 +49,34 @@ function init(data, elementId) {
         }
       },
       // {
-      //   data: 'LOCATION',
+      //   data: LOCATION_COL,
       //   title: 'LOCATION:',
       // },
       {
-        data: 'GENERAL ROLE',
-        title: 'CATEGORY:',
+        data: ROLE_COL,
+        title: 'PRIMARY ROLE:',
       },
       {
-        data: 'ROLE(S)',
-        title: 'ROLE(S):',
+        data: SECONDARY_ROLE_COL,
+        title: 'SECONDARY ROLE:',
       },
       {
-        data: 'REGION',
+        data: LOCATION_COL,
         name: 'REGION',
         title: 'REGION:',
       },
       {
-        data: 'FULL ADDRESS',
+        data: ADDRESS_COL,
         title: 'ADDRESS:',
         className: 'none',
       },
       {
-        data: 'CONTACT',
+        data: CONTACT_COL,
         title: 'CONTACT:',
         className: 'none',
       },
       {
-        data: 'EMAIL',
+        data: EMAIL_COL,
         title: 'EMAIL:',
         className: 'none',
         render: function(data, type, full, meta) {
@@ -69,7 +84,7 @@ function init(data, elementId) {
         }
       },
       {
-        data: 'PHONE',
+        data: PHONE_COL,
         title: 'PHONE:',
         className: 'none',
         render: function(data, type, full, meta) {
@@ -77,7 +92,7 @@ function init(data, elementId) {
         }
       },
       {
-        data: 'WEBSITE',
+        data: WEBSITE_COL,
         title: 'WEBSITE:',
         className: 'none',
         render: function(data, type, full, meta) {
@@ -85,7 +100,7 @@ function init(data, elementId) {
         }
       },
       {
-        data: 'COLLABORATION OPPORTUNITIES',
+        data: COLLABORATION_COL,
         title: 'COLLABORATION OPPORTUNITIES:',
         className: 'none',
       },

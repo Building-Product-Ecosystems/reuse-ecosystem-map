@@ -1,5 +1,6 @@
 import * as Data from './data.js'
 import * as Map from './map.js'
+import * as Table from './table.js'
 import style from './style/main.scss'
 
 const app = document.querySelector('#app')
@@ -24,10 +25,17 @@ ${parentUrl.indexOf("buildingproductecosystems.org") > 0  ? "" : '<p>Resources c
 </div>
 `
 
-window.addEventListener('DOMContentLoaded', init)
+const init = async () => {
+  // Data.getSpreadsheetData()
+  let airtableData = await Promise.all([
+    Data.getAirtableData()
+  ]);
+  airtableData = airtableData.flat();
 
-function init() {
-  Data.getSpreadsheetData()
+  console.log(airtableData);
+
+  Map.init(airtableData);
+  Table.init(airtableData, '#table');
 
   const mapLegend = document.querySelector('#mapLegend')
   mapLegend.innerHTML = Map.mapLegend(Map.roleColors)
@@ -57,3 +65,5 @@ function init() {
     })
   }
 }
+
+window.addEventListener('DOMContentLoaded', init)
