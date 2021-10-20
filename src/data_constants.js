@@ -12,16 +12,16 @@ export const WEBSITE_COL = "Website"
 export const COLLABORATION_COL = "Collaboration Opportunities"
 
 export const ALL_FIELDS = [
-  "Entity Name",
-  "Region",
-  "Primary Role",
-  "Secondary Role (if applicable)",
-  "Full Address",
-  "Contact Name",
-  "Email",
-  "Phone Number",
-  "Website",
-  "Collaboration Opportunities",
-  "Latitude",
-  "Longitude",
+  LAT_COL,
+  LON_COL,
+  ENTITY_COL,
+  LOCATION_COL,
+  ROLE_COL,
+  SECONDARY_ROLE_COL,
+  ADDRESS_COL,
+  CONTACT_COL,
+  EMAIL_COL,
+  PHONE_COL,
+  WEBSITE_COL,
+  COLLABORATION_COL,
 ]
