@@ -92,6 +92,7 @@ function buildGeoJSON(data) {
   }
   for (var i = 0; i < data.length; i++) {
     let feature = data[i]
+    if (!feature[LON_COL] || !feature[LAT_COL]) { continue }
     feature[LON_COL] = feature[LON_COL].replace(',', '.')
     feature[LAT_COL] = feature[LAT_COL].replace(',', '.')
     let lon = feature[LON_COL]
