@@ -136,6 +136,8 @@ function loadMap(geoJSON) {
   function popup(feature, layer) {
     let prop = feature.properties
 
+    const display = (text) => { return text ? text : '' }
+
     layer.bindPopup(`
       <div class="popup">
         <h2>${prop[ENTITY_COL]}</h2>
@@ -143,15 +145,15 @@ function loadMap(geoJSON) {
         <hr/>
         <table class="popup-table">
           <tbody>
-            <tr><td><strong>Role(s)</strong></td><td>${prop[ROLE_COL]}</td></tr>
-            <tr><td><strong>Address</strong></td><td>${prop[ADDRESS_COL]}</td></tr>
-            <tr><td><strong>Contact</strong></td><td>${prop[CONTACT_COL]}</td></tr>
-            <tr><td><strong>Email</strong></td><td><a href="mailto:${prop[EMAIL_COL]}">${prop[EMAIL_COL]}</a></td></tr>
-            <tr><td><strong>Phone</strong></td><td><a href="tel:${prop[PHONE_COL]}">${prop[PHONE_COL]}</a></td></tr>
-            <tr><td><strong>Website</strong></td><td><a href="${prop[WEBSITE_COL]}" target="_blank">${prop[WEBSITE_COL]}</a></td></tr>
+            <tr><td><strong>Role(s)</strong></td><td>${display(prop[ROLE_COL])}</td></tr>
+            <tr><td><strong>Address</strong></td><td>${display(prop[ADDRESS_COL])}</td></tr>
+            <tr><td><strong>Contact</strong></td><td>${display(prop[CONTACT_COL])}</td></tr>
+            <tr><td><strong>Email</strong></td><td><a href="mailto:${display(prop[EMAIL_COL])}">${display(prop[EMAIL_COL])}</a></td></tr>
+            <tr><td><strong>Phone</strong></td><td><a href="tel:${display(prop[PHONE_COL])}">${display(prop[PHONE_COL])}</a></td></tr>
+            <tr><td><strong>Website</strong></td><td><a href="${display(prop[WEBSITE_COL])}" target="_blank">${display(prop[WEBSITE_COL])}</a></td></tr>
           </tbody>
         </table>
-        <p class="popup-p"><strong>Collaboration Opportunities: </strong>${prop[COLLABORATION_COL]}</p>
+        <p class="popup-p"><strong>Collaboration Opportunities: </strong>${display(prop[COLLABORATION_COL])}</p>
       </div>
       `, {
         maxWidth : isMobile ? window.innerWidth * 0.75 : 450
