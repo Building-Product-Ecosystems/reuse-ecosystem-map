@@ -165,7 +165,7 @@ function loadMap(geoJSON) {
         ${prop[LOCATION_COL] ? `<br /><span>${prop[LOCATION_COL]}</span>` : ''}
       </div>
       `, {
-        maxWidth : isMobile ? window.innerWidth * 0.75 : 450
+        maxWidth : isMobile ? window.innerWidth * 0.75 : 250
       })
   }
 
