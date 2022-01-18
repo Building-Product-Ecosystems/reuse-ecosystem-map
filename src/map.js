@@ -24,7 +24,7 @@ const isMobile = window.innerHeight >= window.innerWidth
 
 const roleColors = {
   'Consulting (Architecture, Engineering, Environmental)': '#ff7f0e',
-  'Deconstruction': '#2ca02c',
+  'Deconstruction / Salvage': '#2ca02c',
   'Government / Public Agency': '#aec7e8',
   'Reuse': '#9467bd',
   'Remanufacturing / Recycling': '#bcbd22',
