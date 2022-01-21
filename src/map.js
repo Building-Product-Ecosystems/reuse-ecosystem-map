@@ -12,6 +12,7 @@ import {
   PHONE_COL,
   WEBSITE_COL,
   COLLABORATION_COL,
+  COLOR_COL,
 } from './data_constants.js'
 
 const MAPBOX_LINK = 'https://api.mapbox.com/styles/v1/bplmp/cklqt2e0v3ia517pfvnkqyt1z/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYnBsbXAiLCJhIjoiY2tscXN6ZXJvMHlmZDJ2cHNuYXg4cm0zdSJ9.NJq68mVfGTdY3qFd1Huj5w'
@@ -20,21 +21,8 @@ const INITIAL_COORDS = [37.76496739271615, -122.39985495803376]
 const INITIAL_ZOOM = 5
 const isMobile = window.innerHeight >= window.innerWidth
 
-
-
-const roleColors = {
-  'Consulting (Architecture, Engineering, Environmental)': '#ff7f0e',
-  'Deconstruction / Salvage': '#2ca02c',
-  'Government / Public Agency': '#aec7e8',
-  'Reuse': '#9467bd',
-  'Remanufacturing / Recycling': '#bcbd22',
-  'Network / Resources / Database': '#eb4034',
-  'Hauling / Warehousing': '#4153f2',
-}
-
 export {
   init,
-  roleColors,
   mapLegend,
   zoomToRegion,
 }
@@ -54,16 +42,10 @@ function init(data) {
   }, 350)
 }
 
-function getFeatureColor(featureRole) {
-  let role = featureRole.trim()
-  if (role.split(' ')[0] === 'Reuse') {
-    role = 'Reuse'  // because there are many types of reuse
-  }
-  if (roleColors[role]) {
-    return roleColors[role]
-  } else {
-    return '#333333'
-  }
+function getFeatureColor(colorCol) {
+  const fallbackColor = '#333'
+  if (!colorCol.length) { return fallbackColor }
+  return colorCol[0]
 }
 
 function buildFeature(feature) {
@@ -173,10 +155,10 @@ function loadMap(geoJSON) {
 
     pointToLayer: function(feature, latlng) {
       return L.circleMarker(latlng, {
-        radius: 9,
-        fillColor: getFeatureColor(feature.properties[ROLE_COL]),
+        radius: 5,
+        fillColor: getFeatureColor(feature.properties[COLOR_COL]),
         color: "#fff",
-        weight: 1.5,
+        weight: 1.2,
         opacity: 1,
         fillOpacity: 0.9,
       })
@@ -222,15 +204,13 @@ function mapLegend(colors) {
       <span>Hide Legend</span>
     </div>
   `]
-  for (let variable in colors) {
-    if (colors.hasOwnProperty(variable)) {
-      colorsHTML.push(`
-        <div class="map-legend-row map-legend-content flex ${isMobile ? 'invisible' : 'visible'}">
-          <div class="map-legend-color" style="background: ${colors[variable]}"></div>
-          <span>${variable}</span>
-        </div>
-      `)
-    }
+  for (const color of colors) {
+    colorsHTML.push(`
+      <div class="map-legend-row map-legend-content flex ${isMobile ? 'invisible' : 'visible'}">
+        <div class="map-legend-color" style="background: ${color[1]}"></div>
+        <span>${color[0]}</span>
+      </div>
+    `)
   }
   return `<div class="map-legend flex flex-column">${colorsHTML.join('\n')}</div>`
 }
