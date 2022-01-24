@@ -15,7 +15,7 @@ import {
   COLOR_COL,
 } from './data_constants.js'
 
-const MAPBOX_LINK = 'https://api.mapbox.com/styles/v1/bplmp/cklqt2e0v3ia517pfvnkqyt1z/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYnBsbXAiLCJhIjoiY2tscXN6ZXJvMHlmZDJ2cHNuYXg4cm0zdSJ9.NJq68mVfGTdY3qFd1Huj5w'
+const MAPBOX_LINK = 'https://api.mapbox.com/styles/v1/bpemaps/ckyt7sb63000d14qmztb6jew3/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYnBlbWFwcyIsImEiOiJja3l0N25wMzkxN2F1MnVzajJ4N2tlNG9sIn0.hHHFVHuiYWIuSFf7osJfaA'
 
 const INITIAL_COORDS = [37.76496739271615, -122.39985495803376]
 const INITIAL_ZOOM = 5
