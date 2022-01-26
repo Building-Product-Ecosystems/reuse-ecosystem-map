@@ -6,7 +6,7 @@ import style from './style/main.scss'
 const app = document.querySelector('#app')
 const parentUrl = (window.location != window.parent.location) ? document.referrer : document.location.href
 
-const hideTable = parentUrl.indexOf("table=hide") > 0
+const hideTable = window.location.href.indexOf("table=hide") > 0
 
 app.innerHTML = `
 <div id="spinner">
