@@ -14,7 +14,7 @@ import {
 } from './data_constants.js'
 
 const databaseId = 'app2Ufltjsi6qQF2b';
-const airtableApiKey = 'keyXTEWIgSJI4MeGu';
+const airtableApiKey = 'pataXt3cv72CjV3Me.03efa389a17bdfdc55a726d4b6a2bffec8cc8be5c2c5ac8836c3dd5420e11b5a';
 const base = new Airtable({apiKey: airtableApiKey}).base(databaseId);
 
 const publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSZ_aRgmKOVqj1Ch4zy8zzjkQREuYo0xXzPlJUKv4-7ULfWNNQdJbOFJgVFayS4zbT7vvkIaJ5JZaBa/pub?output=csv'
